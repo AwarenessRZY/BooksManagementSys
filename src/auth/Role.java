@@ -1,29 +1,37 @@
 package auth;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.Permissions;
 import java.security.acl.Permission;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import biz.BizFactory;
 import biz.BookInfoBiz;
+import biz.UserBiz;
+import entity.User;
 import exception.NoSuchOptPermissionException;
+import util.FileUtil;
 
-public class Role {
+public class Role implements Serializable{
+	private static final long serialVersionUID = -2629435151927325624L;
 	private String name;
 	private String key; // 对应权限配置文件中的权限key
 	private List<String> permissions; // 权限集合-保存在配置文件中：Role_Permissions.properties
 	private BookInfoBiz bookInfoBiz;
+	private UserBiz userBiz;
 
 	public Role() {
 		setName("默认角色");
 		setKey("default");
 		setPermissions(key);
 		bookInfoBiz = (BookInfoBiz) BizFactory.getBiz("BookInfoBiz");
-
+		userBiz = (UserBiz) BizFactory.getBiz("UserBiz");
 	}
 
 	public Role(String name, String key) {
@@ -31,6 +39,7 @@ public class Role {
 		setKey(key);
 		setPermissions(key);
 		bookInfoBiz = (BookInfoBiz) BizFactory.getBiz("BookInfoBiz");
+		userBiz = (UserBiz) BizFactory.getBiz("UserBiz");
 	}
 
 	public boolean checkPermission(String optName) {
@@ -45,6 +54,9 @@ public class Role {
 				return true;
 		}
 		return false;
+	}
+	public User login(User user) {
+		return userBiz.login(user);
 	}
 
 	public boolean inStore(String isbn, int inCount) {
@@ -113,5 +125,16 @@ public class Role {
 	public void setKey(String key) {
 		this.key = key;
 	}
-
+	
+	public boolean addUser(User user) {
+		return userBiz.add(user);
+	}
+	
+	public boolean deleteUser(User user) {
+		return userBiz.delete(user);
+	}
+	
+	public User updateUser(User user) {
+		return userBiz.update(user);
+	}
 }

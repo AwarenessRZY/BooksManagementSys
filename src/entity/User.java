@@ -29,8 +29,14 @@ public class User implements Serializable {
 		if (!(obj instanceof User))
 			return false;
 		User user = (User) obj;
-
+		
 		return userName.equals(user.getUserName()) && password.equals(user.getPassword());
+	}
+	
+	@Override
+	public int hashCode() {
+
+		return 0;
 	}
 
 	public String getUserName() {

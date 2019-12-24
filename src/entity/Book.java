@@ -22,6 +22,11 @@ public class Book implements Serializable{
 		return bookId.equals(book.getBookId());
 	}
 	
+	@Override
+	public int hashCode() {
+
+		return 0;
+	}
 	
 	public BookInfo getBookInfo() {
 		return bookInfo;
@@ -52,13 +57,6 @@ public class Book implements Serializable{
 		this.state = state;
 	}
 	
+	
 }
 
-/**
- * Í¼Êé×´Ì¬
- * @author mi
- *
- */
-enum BookState{
-	¿É½è,²»¿É½è,È±»õ,Ëð»µ,ÐÞ¸´ÖÐ
-}

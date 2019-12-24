@@ -1,6 +1,7 @@
 package biz;
 
 import impl.BookInfoBizImplv1;
+import impl.UserBizImplv1;
 
 public class BizFactory {
 	/**
@@ -11,7 +12,7 @@ public class BizFactory {
 		case "bookinfobiz":
 			return new BookInfoBizImplv1();
 		case "userbiz":
-			//return new UserBizImplv2();
+			return new UserBizImplv1();
 		default:
 			return null;
 		} 

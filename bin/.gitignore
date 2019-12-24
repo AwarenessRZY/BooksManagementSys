@@ -1,8 +1,4 @@
-/auth/
-/biz/
-/entity/
-/exception/
 /impl/
-/test/
-/util/
 /view/
+/auth/
+/entity/

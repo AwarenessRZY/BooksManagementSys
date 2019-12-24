@@ -44,7 +44,10 @@ public class BookInfoBizImplv1 implements BookInfoBiz{
 		if(bookInfo == null) return null;
 		Map<String,BookInfo> bookInfoMap = findAll();
 		if(null == bookInfoMap) return null;
-		if(!bookInfoMap.containsKey(bookInfo.getIsbn())) return null;
+		if(!bookInfoMap.containsKey(bookInfo.getIsbn())) {
+			add(bookInfo);
+			return bookInfo;
+		}
 		bookInfoMap.put(bookInfo.getIsbn(), bookInfo);
 		FileUtil.SaveBookInfoMap(bookInfoMap);
 		return bookInfo;
@@ -78,7 +81,13 @@ public class BookInfoBizImplv1 implements BookInfoBiz{
 	@Override
 	public boolean inStore(String isbn, int inCount) {
 		BookInfo bookInfo = searchByIsbn(isbn);
-		if(bookInfo == null) return false;
+		if(bookInfo == null) {
+			BookInfo bookInfo2 =new BookInfo();
+			bookInfo2.setIsbn(isbn);
+			bookInfo2.setInStoreCount(inCount);
+			add(bookInfo2);
+			return true;
+			}
 		bookInfo.setInStoreCount(bookInfo.getInStoreCount() + inCount);
 		update(bookInfo);
 		return true;
@@ -89,11 +98,14 @@ public class BookInfoBizImplv1 implements BookInfoBiz{
 		Map<String,BookInfo> bookInfoMap = findAll();
 		for(Entry<String,BookInfo> entry : bookInfoMap.entrySet()) {
 			BookInfo bookInfo = entry.getValue();
-			List<Book> list = bookInfo.getBookList();
-			for(Book book : list) {
-				if(book.getBookId().equals(id)) return bookInfo;
+			List<Book> list = bookInfo.getBookList();	
+			if(list == null) {continue;}
+				for(Book book : list) {
+					if(book.getBookId().equals(id)) return bookInfo;
+				}
 			}
-		}
+			
+		System.out.println("没有该bookID的图书！");
 		return null;
 	}
 

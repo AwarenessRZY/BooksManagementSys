@@ -7,30 +7,31 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import auth.Role;
-import entity.Book;
-import entity.BookInfo;
-import entity.User;
+import entity.*;
 import impl.BookInfoBizImplv1;
 import util.FileUtil;
+import view.BookView;
 
 public class test {
 
 	public static void main(String[] args) {
 		// testChangeStock();
 		// testRole();
-		testUser();
+		//testUser();
+		//testBookInfo();
+		new BookView();
 	}
 
 	public static void testUser() {
-		User user = new User(new Role("图书馆登记员", "operator"));
+		User user = new User(new Role("馆长", "administrator"));
 		user.setUserName("Janos");
-		//user.setPassword("123");
+		user.setPassword("123");
 		Set<User> userSet = new HashSet<User>();
 		userSet.add(user);
 		FileUtil.SaveUserSet(userSet);
-
-		Set<User> userSet2 = FileUtil.ReadUserSet();
-		System.out.println(userSet2);
+		
+//		Set<User> userSet2 = FileUtil.ReadUserSet();
+//		System.out.println(userSet2);
 //		for (User u : userSet2) {
 //			System.out.println(u.getUserName());
 //		}
@@ -50,7 +51,11 @@ public class test {
 		info1.setIsbn("123-456");
 		Book book = new Book();
 		book.setIsbn("123-456");
+		book.setBookId("000");
 		info1.addBook(book);
+		info1.showBooks();
+		info1.updateBooks("000",BookState.可借);
+		info1.showBooks();
 	}
 
 	public static void testChangeStock() {
